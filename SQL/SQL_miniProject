@@ -1,0 +1,64 @@
+--Create a videos table.
+--This table should include a unique ID, the title of the video, the length in minutes, and the URL.
+--Populate the table with at least three related videos from YouTube or other publicly available
+--resources.
+
+--Create and populate Reviewers table.
+--Create a second table that provides at least two user reviews for each of at least two of the videos.
+--These should be imaginary reviews that include columns for the user’s name (“Asher”, “John”, etc.), the
+--rating (which could be NULL, or a number between 0 and 5), and a short text review (“Loved it!”). There
+--should be a column that links back to the ID column in the table of videos.
+
+
+DROP TABLE IF EXISTS Video;
+DROP TABLE IF EXISTS Reviewers;
+
+--Create a videos table.
+CREATE TABLE Video(
+   Video_id INT,
+   title_Video VARCHAR(255),
+   len_minutes float,
+	URL VARCHAR(255),
+   PRIMARY KEY(Video_id)
+);
+
+--Insert values in video table:
+INSERT INTO Video VALUES(1 ,'Terminator_1', 1.58 ,'https://www.youtube.com/watch?v=k64P4l2Wmeg');
+INSERT INTO Video VALUES(2 ,'TERMINATOR_2', 2.04 ,'https://www.youtube.com/watch?v=lwSysg9o7wE');
+INSERT INTO Video VALUES(3 ,'Terminator_3', 2.28 ,'https://www.youtube.com/watch?v=GPuHsU3lTKk');
+INSERT INTO Video VALUES(4 ,'Terminator_4', 2.25 ,'https://www.youtube.com/watch?v=5O_8QkJ9puY');
+
+--show the video table
+select * from Video
+
+
+--Create a reviewers table.
+CREATE TABLE Reviewers(
+   Reviewers_id INT not null,
+   Video_id INT,
+   Reviewers_name VARCHAR(255),
+   rating VARCHAR(5),
+   review VARCHAR(100),
+   PRIMARY KEY(Reviewers_id),
+   CONSTRAINT fk_Video
+      FOREIGN KEY(Video_id) 
+	  REFERENCES Video(Video_id)
+
+);
+	   	   
+--insert values in reviewers table:
+INSERT INTO Reviewers Values(556, 1,'John', 4,'Loved it!');
+INSERT INTO Reviewers Values(776, 2,'Asher', 5,'hated it!');
+INSERT INTO Reviewers Values(888, 3,'Asher', 1,'liked it!');
+INSERT INTO Reviewers Values(657, 4,'John', 2,'hated it!');
+
+--show the reviewers table
+select * from Reviewers
+
+
+--Report on Video Reviews.
+
+--Write a JOIN statement that shows information from both tables.
+select * from Video
+full join Reviewers
+on Video.Video_id = Reviewers.Video_id;
